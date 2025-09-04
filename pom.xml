@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.pentaho</groupId>
+	<artifactId>jobbuilder</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>jobbuilder</name>
+	<properties>
+		<java.version>21</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+        <dependency>
+            <groupId>pentaho</groupId>
+            <artifactId>kettle-core</artifactId>
+            <version>9.4.0.0-343</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/PTH_Jar/kettle-core-9.4.0.0-343.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>pentaho</groupId>
+            <artifactId>kettle-engine</artifactId>
+            <version>9.4.0.0-343</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/PTH_Jar/kettle-engine-9.4.0.0-343.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scannotation</groupId>
+            <artifactId>scannotation</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>3.0.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.pentaho</groupId>
+            <artifactId>pentaho-metadata</artifactId>
+            <version>9.4.0.0-343</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/PTH_Jar/pentaho-metadata-9.4.0.0-343.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>pentaho</groupId>
+            <artifactId>metastore</artifactId>
+            <version>9.4.0.0-343</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/PTH_Jar/metastore-9.4.0.0-343.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.pentaho</groupId>
+            <artifactId>pentaho-encryption-support</artifactId>
+            <version>9.4.0.0-343</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/PTH_Jar/pentaho-encryption-support-9.4.0.0-343.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.owasp.encoder</groupId>
+            <artifactId>encoder</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-vfs2</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
