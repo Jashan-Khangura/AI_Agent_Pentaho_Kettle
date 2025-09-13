@@ -2,6 +2,7 @@ package com.pentaho.jobbuilder.Service;
 
 import com.pentaho.jobbuilder.Model.Job;
 import com.pentaho.jobbuilder.Model.JobHop;
+import jakarta.annotation.PostConstruct;
 import org.pentaho.di.core.CheckResultInterface;
 import org.pentaho.di.core.KettleEnvironment;
 import org.pentaho.di.core.ProgressNullMonitorListener;
@@ -11,6 +12,8 @@ import org.pentaho.di.job.JobMeta;
 import org.pentaho.di.job.entries.job.JobEntryJob;
 import org.pentaho.di.job.entries.trans.JobEntryTrans;
 import org.pentaho.di.job.entry.JobEntryCopy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.FileWriter;
@@ -21,9 +24,16 @@ import java.util.*;
 
 @Service
 public class JobService {
+    private static final Logger log = LoggerFactory.getLogger(JobService.class);
     private final Map<String, JobEntryCopy> jobEntryMap = new HashMap<>();
 
-    public void createJob(Job job) throws KettleException {
+    @PostConstruct
+    public void init() throws KettleException {
+        KettleEnvironment.init();
+        log.info("Kettle Environment init completed");
+    }
+
+    public void createJob(Job job) {
         if(Objects.isNull(job.getJobName()) || job.getJobName().isEmpty()
                 || (Objects.isNull(job.getTransformationFiles()) && Objects.isNull(job.getJobFiles()))
                 || (job.getTransformationFiles().isEmpty() && job.getJobFiles().isEmpty())) {
@@ -33,6 +43,8 @@ public class JobService {
         int x = 50;
         int y = 50;
         int stepGap = 50;
+
+        log.info("Creating Job {}", job.getJobName());
 
         JobMeta jobMeta = new JobMeta();
         jobMeta.setName(job.getJobName());
@@ -45,10 +57,11 @@ public class JobService {
                 entry.setFileName(fileName);
 
                 JobEntryCopy copy = new JobEntryCopy(entry);
-                copy.setLocation(x+=stepGap, y+=stepGap);
+                copy.setLocation(x, y+=stepGap);
                 jobMeta.addJobEntry(copy);
 
                 jobEntryMap.put(name, copy);
+                log.info("Added {} to {} Job Scope", fileName, job.getJobName());
             }
         }
 
@@ -64,6 +77,7 @@ public class JobService {
                 jobMeta.addJobEntry(copy);
 
                 jobEntryMap.put(name, copy);
+                log.info("Added {} to {} Job Scope", fileName, job.getJobName());
             }
         }
 
@@ -74,13 +88,11 @@ public class JobService {
             }
         }
 
-        KettleEnvironment.init();
-
         List<CheckResultInterface> remarks = new ArrayList<>();
         jobMeta.checkJobEntries(remarks, true, new ProgressNullMonitorListener());
 
         if (remarks.isEmpty()) {
-            System.out.println("Job validation passed: No errors found.");
+            log.info("{} Job validation passed: No errors found.", job.getJobName());
 
             String file = "Output/"+job.getJobName() + ".kjb";
             try (FileWriter writer = new FileWriter(file)) {
@@ -89,10 +101,12 @@ public class JobService {
                 throw new RuntimeException(e.getMessage());
             }
         } else {
-            System.out.println("Validation Results:");
+            log.info("{} Job validation Failed", job.getJobName());
+            StringBuilder validationRes = new StringBuilder();
             for (CheckResultInterface remark : remarks) {
-                System.out.println(remark.getType() + " - " + remark.getText());
+                validationRes.append(remark.getType()).append(" - ").append(remark.getText()).append("\n");
             }
+            log.info("Validation Results: \n{}", validationRes);
         }
 
         jobEntryMap.clear();
@@ -110,12 +124,14 @@ public class JobService {
                             throw new RuntimeException(e);
                         }
                     });
+            log.info("Cleared Output Folder");
         }
     }
 
     public JobHopMeta defineHop(JobHop hop) {
         JobEntryCopy fromJob = jobEntryMap.get(hop.getFromJob());
         JobEntryCopy toJob = jobEntryMap.get(hop.getToJob());
+        log.info("Hop Defined between {} & {}", fromJob, toJob);
 
         return new JobHopMeta(fromJob, toJob);
     }

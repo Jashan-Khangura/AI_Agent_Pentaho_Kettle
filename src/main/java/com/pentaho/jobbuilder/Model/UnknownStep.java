@@ -7,7 +7,6 @@ import org.pentaho.di.trans.step.StepMeta;
 public class UnknownStep extends Step {
     @Override
     public StepMeta getStepMeta() {
-        System.out.println(getStepType());
         throw new UnsupportedOperationException("Unknown step type: " + getStepType());
     }
 }

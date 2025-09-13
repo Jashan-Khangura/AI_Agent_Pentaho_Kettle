@@ -22,7 +22,6 @@ public class StepController {
     @PostMapping("/create")
     public String createStep(@RequestBody Step stepRequest) {
         try{
-            System.out.println(stepRequest.toString());
             stepService.createStep(stepRequest);
             return "Step created successfully: " + stepRequest.getStepName();
         } catch (Exception e) {
@@ -43,7 +42,6 @@ public class StepController {
     @GetMapping("/save")
     public String saveSteps(@RequestParam String transformationName) {
         try {
-            System.out.println(transformationName);
             stepService.saveSteps(transformationName);
             return "Transformation saved successfully to " + transformationName;
         } catch (Exception e) {
@@ -54,7 +52,6 @@ public class StepController {
     @GetMapping("/hop")
     public String hopSteps(@RequestParam String fromStep, @RequestParam String toStep) {
         try {
-            System.out.println(fromStep + " " + toStep);
             stepService.defineHop(fromStep, toStep);
             return "Hop defined successfully between steps " + fromStep + " & " + toStep;
         } catch (Exception e) {
@@ -68,7 +65,6 @@ public class StepController {
             stepService.test(fileName);
             return "Success";
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return e.getMessage();
         }
     }

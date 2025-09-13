@@ -33,7 +33,7 @@ public class JobController {
 
     @GetMapping("/complete")
     public void jobComplete(HttpServletResponse response) throws IOException {
-        Path source = Paths.get("C:/Projects/jobbuilder/Output");
+        Path source = Paths.get("Output");
         String fileName = "Output.zip";
 
         response.setContentType("application/zip");
