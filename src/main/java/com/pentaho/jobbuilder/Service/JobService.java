@@ -20,6 +20,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Service
@@ -28,7 +29,9 @@ public class JobService {
     private final Map<String, JobEntryCopy> jobEntryMap = new HashMap<>();
 
     @PostConstruct
-    public void init() throws KettleException {
+    public void init() throws Exception {
+        Files.createDirectories(Paths.get("Output"));
+        log.info("Output dir created");
         KettleEnvironment.init();
         log.info("Kettle Environment init completed");
     }
@@ -114,8 +117,9 @@ public class JobService {
 
     public void deleteFolderRecursively(Path folder) throws IOException {
         if (Files.exists(folder)) {
+            Path logsFolder = folder.resolve("logs");
             Files.walk(folder)
-                    .filter(path -> !path.equals(folder))
+                    .filter(path -> !path.equals(folder) && !path.startsWith(logsFolder))
                     .sorted((a, b) -> b.compareTo(a))
                     .forEach(path -> {
                         try {

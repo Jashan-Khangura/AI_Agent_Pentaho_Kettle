@@ -32,16 +32,12 @@
             <groupId>pentaho</groupId>
             <artifactId>kettle-core</artifactId>
             <version>9.4.0.0-343</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/PTH_Jar/kettle-core-9.4.0.0-343.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>pentaho</groupId>
             <artifactId>kettle-engine</artifactId>
             <version>9.4.0.0-343</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/PTH_Jar/kettle-engine-9.4.0.0-343.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -60,24 +56,18 @@
             <groupId>org.pentaho</groupId>
             <artifactId>pentaho-metadata</artifactId>
             <version>9.4.0.0-343</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/PTH_Jar/pentaho-metadata-9.4.0.0-343.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>pentaho</groupId>
             <artifactId>metastore</artifactId>
             <version>9.4.0.0-343</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/PTH_Jar/metastore-9.4.0.0-343.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>org.pentaho</groupId>
             <artifactId>pentaho-encryption-support</artifactId>
             <version>9.4.0.0-343</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/PTH_Jar/pentaho-encryption-support-9.4.0.0-343.jar</systemPath>
         </dependency>
 
         <dependency>

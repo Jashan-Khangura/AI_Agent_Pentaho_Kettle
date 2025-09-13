@@ -2,7 +2,9 @@ package com.pentaho.jobbuilder.Controller;
 
 import com.pentaho.jobbuilder.Model.Job;
 import com.pentaho.jobbuilder.Service.JobService;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -39,9 +41,11 @@ public class JobController {
         response.setContentType("application/zip");
         response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 
+        Path logsFolder = source.resolve("logs");
         try (ZipOutputStream zs = new ZipOutputStream(response.getOutputStream())) {
             Files.walk(source)
                     .filter(path -> !Files.isDirectory(path))
+                    .filter(path -> !path.startsWith(logsFolder))
                     .forEach(path -> {
                         ZipEntry zipEntry = new ZipEntry(source.relativize(path).toString());
                         try {

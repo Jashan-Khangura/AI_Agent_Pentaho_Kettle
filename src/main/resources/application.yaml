@@ -3,3 +3,4 @@ spring:
     name: jobbuilder
 server:
   port: 8080
+baseDir: /PTHJobBuilder
